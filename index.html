@@ -3,10 +3,64 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<script src="./app.js"></script>
+	<title>Habbit App</title>
+	<link rel="stylesheet" href="/styles/main.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: rgb(28, 36, 99); text-align: center;">
-	<img style="width: 50%;" src="Vans-logo.png" alt="">
+<body>
+	<div class="app">
+		<div class="panel">
+			<img class="logo" src="/images/logo.png" alt="Логотип Характер">
+			<nav class="menu">
+				<div class="menu__list">
+					<button class="menu__item">
+						<img src="/images/bottle.svg" alt="Вода">
+					</button>
+					<button class="menu__item">
+						<img src="/images/food.svg" alt="Еда">
+					</button>
+				</div>
+				<button class="menu__add">
+					<img src="/images/add.svg" alt="Добавить привычку">
+				</button>
+			</nav>
+		</div>
+		<div class="content">
+			<header>
+				<h1>Отжимания</h1>
+				<div class="progress">
+					<div class="progress__text">
+						<div class="progress__name">Прогресс</div>
+						<div class="progress__percent">80%</div>
+					</div>
+					<div class="progress__bar">
+						<div class="progress__cover__bar"></div>
+					</div>
+				</div>
+			</header>
+			<main>
+				<div>
+					<div class="habbit">
+						<div class="habbit__day">День 1</div>
+						<div class="habbit__comment">Будет легче</div>
+						<button class="habbit__delete">
+							<img src="./images/delete.svg" alt="Удалить день">
+						</button>
+					</div>
+					<div class="habbit">
+						<div class="habbit__day">День 2</div>
+						<form class="habbit__form">
+							<input class="input_icon" type="text" placeholder="Комментарий">
+							<img class="input__icon" src="./images/comment.svg" alt="Иконка комментария">
+							<button class="input__add">Готово</button>
+						</form>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+	<script src="./scripts/app.js"></script>
 </body>
 </html>
