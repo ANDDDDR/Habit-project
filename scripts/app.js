@@ -9,7 +9,9 @@ const page = {
 		h1: document.querySelector('.header__name'),
 		progressPercent: document.querySelector('.progress__percent'),
 		progressCoverBar: document.querySelector('.progress__cover__bar')
-	}
+	},
+	mainDays: document.querySelector('.days'),
+	mainDaysAdd: document.querySelector('.habbit__day_add')
 };
 // data
 function loadData(){
@@ -25,9 +27,6 @@ function saveData(){
 }
 // render
 function renderMenu(activeHabbit){
-	if(!activeHabbit){
-		return;
-	}
 	for(const habbit of habbits){
 		const existed = document.querySelector(`[menu-habbit-id="${habbit.id}"]`);
 		if(!existed){
@@ -51,9 +50,6 @@ function renderMenu(activeHabbit){
 }
 
 function renderHead(activeHabbit){
-	if(!activeHabbit){
-		return;
-	}
 	page.header.h1.innerText = activeHabbit.name;
 	const progress = activeHabbit.days.length/activeHabbit.target > 1
 	? 100
@@ -62,10 +58,36 @@ function renderHead(activeHabbit){
 	page.header.progressCoverBar.style.width = `${progress.toFixed(0)}%`;
 }
 
+function renderContent(activeHabbit){
+	page.mainDays.innerHTML = "";
+	for( const day of activeHabbit.days){
+		const dayIndex = activeHabbit.days.indexOf(day);
+		const element = document.createElement('div');
+		element.classList.add('habbit');
+		element.innerHTML = `<div class="habbit__day">День ${dayIndex+1}</div>
+						<div class="habbit__comment">${day.comment}</div>
+						<button class="habbit__delete">
+							<img src="./images/delete.svg" alt="Удалить день">
+						</button>`;
+		element.querySelector('.habbit__delete').addEventListener('click', ()=> {
+			activeHabbit.days.splice(dayIndex,1);
+			saveData();
+			rerender(activeHabbit.id);
+		});
+		page.mainDays.appendChild(element);
+	}
+	page.mainDaysAdd.querySelector('.habbit__day').innerHTML = `День ${activeHabbit.days.length+1}`;
+}
+
+
 function rerender(activeHabbitId){
+	if(!activeHabbit){
+		return;
+	}
 	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
 	renderMenu(activeHabbit);
 	renderHead(activeHabbit);
+	renderContent(activeHabbit);
 }
 // init
 (()=>{
