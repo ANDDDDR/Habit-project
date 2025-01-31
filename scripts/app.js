@@ -4,7 +4,12 @@ let habbits = [];
 const HABBIT_KEY = 'HABBIT_KEY';
 // page
 const page = {
-	menu: document.querySelector('.menu__list')
+	menu: document.querySelector('.menu__list'),
+	header:{
+		h1: document.querySelector('.header__name'),
+		progressPercent: document.querySelector('.progress__percent'),
+		progressCoverBar: document.querySelector('.progress__cover__bar')
+	}
 };
 // data
 function loadData(){
@@ -44,9 +49,23 @@ function renderMenu(activeHabbit){
 		}
 	}
 }
+
+function renderHead(activeHabbit){
+	if(!activeHabbit){
+		return;
+	}
+	page.header.h1.innerText = activeHabbit.name;
+	const progress = activeHabbit.days.length/activeHabbit.target > 1
+	? 100
+	: activeHabbit.days.length/activeHabbit.target*100;
+	page.header.progressPercent.innerHTML = `${progress.toFixed(0)}%`;
+	page.header.progressCoverBar.style.width = `${progress.toFixed(0)}%`;
+}
+
 function rerender(activeHabbitId){
 	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
 	renderMenu(activeHabbit);
+	renderHead(activeHabbit);
 }
 // init
 (()=>{

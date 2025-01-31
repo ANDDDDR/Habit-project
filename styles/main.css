@@ -98,6 +98,7 @@ body{
 .content{
 	min-width: 900px;
 	padding-top: 45px;
+	padding-right: 45px;
 }
 
 h1{
@@ -146,7 +147,7 @@ header{
 
 .progress__cover__bar{
 	position: absolute;
-	width: 50%;
+	transition: all 0.5s;
 	height: 5px;
 	border-radius: 4px;
 	background: #A2CF40;
