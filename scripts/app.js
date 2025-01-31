@@ -81,7 +81,7 @@ function renderContent(activeHabbit){
 
 
 function rerender(activeHabbitId){
-	if(!activeHabbit){
+	if(!activeHabbitId){
 		return;
 	}
 	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
