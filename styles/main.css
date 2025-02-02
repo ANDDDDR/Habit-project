@@ -210,6 +210,9 @@ input{
 input::placeholder{
 	color: #9e9ea0;
 }
+input.error{
+	border: 1px solid red;
+}
 
 .habbit__form{
 	display: flex;

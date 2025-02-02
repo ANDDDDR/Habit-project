@@ -2,6 +2,7 @@
 
 let habbits = [];
 const HABBIT_KEY = 'HABBIT_KEY';
+let globalActiveHabbitId;
 // page
 const page = {
 	menu: document.querySelector('.menu__list'),
@@ -10,8 +11,10 @@ const page = {
 		progressPercent: document.querySelector('.progress__percent'),
 		progressCoverBar: document.querySelector('.progress__cover__bar')
 	},
-	mainDays: document.querySelector('.days'),
-	mainDaysAdd: document.querySelector('.habbit__day_add')
+	content:{
+		mainDays: document.querySelector('.days'),
+		mainDaysAdd: document.querySelector('.habbit__day_add')
+	}
 };
 // data
 function loadData(){
@@ -59,13 +62,12 @@ function renderHead(activeHabbit){
 }
 
 function renderContent(activeHabbit){
-	page.mainDays.innerHTML = "";
-	for( const day of activeHabbit.days){
-		const dayIndex = activeHabbit.days.indexOf(day);
+	page.content.mainDays.innerHTML = "";
+	for( const dayIndex in activeHabbit.days){
 		const element = document.createElement('div');
 		element.classList.add('habbit');
-		element.innerHTML = `<div class="habbit__day">День ${dayIndex+1}</div>
-						<div class="habbit__comment">${day.comment}</div>
+		element.innerHTML = `<div class="habbit__day">День ${+dayIndex+1}</div>
+						<div class="habbit__comment">${activeHabbit.days[dayIndex].comment}</div>
 						<button class="habbit__delete">
 							<img src="./images/delete.svg" alt="Удалить день">
 						</button>`;
@@ -74,17 +76,43 @@ function renderContent(activeHabbit){
 			saveData();
 			rerender(activeHabbit.id);
 		});
-		page.mainDays.appendChild(element);
+		page.content.mainDays.appendChild(element);
 	}
-	page.mainDaysAdd.querySelector('.habbit__day').innerHTML = `День ${activeHabbit.days.length+1}`;
+	page.content.mainDaysAdd.querySelector('.habbit__day').innerHTML = `День ${activeHabbit.days.length+1}`;
 }
 
+function addDays(event){
+	event.preventDefault();
+	const form = event.target;
+	const data = new FormData(form);
+	const comment = data.get('comment');
+	if(!comment){
+		form['comment'].classList.add('error');
+	}
+	else{
+		form['comment'].classList.remove('error');
+	}
+	habbits = habbits.map(element => {
+		if(element.id === globalActiveHabbitId){
+			console.log(comment);
+			return{
+				...element,
+				days: element.days.concat([{comment}])
+			}
+		}
+		return element;
+	})
+	saveData();
+	rerender(globalActiveHabbitId);
+	form['comment'].value = "";
+}
 
 function rerender(activeHabbitId){
-	if(!activeHabbitId){
+	globalActiveHabbitId = activeHabbitId;
+	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
+	if(!activeHabbit){
 		return;
 	}
-	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
 	renderMenu(activeHabbit);
 	renderHead(activeHabbit);
 	renderContent(activeHabbit);
