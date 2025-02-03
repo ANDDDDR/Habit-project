@@ -15,7 +15,7 @@
 			<img class="logo" src="/images/logo.png" alt="Логотип Характер">
 			<nav class="menu">
 				<div class="menu__list"></div>
-				<button class="menu__add">
+				<button class="menu__add" onclick="togglePopup(true)">
 					<img src="/images/add.svg" alt="Добавить привычку">
 				</button>
 			</nav>
@@ -65,7 +65,7 @@
 					<input type="number" name="target" placeholder="Цель">
 					<button class="input__add" type="submit">Добавить</button>
 				</form>
-				<button class="popup__close" onclick="closePopup()">
+				<button class="popup__close" onclick="togglePopup(false)">
 					<img src="./images/close.svg" alt="Закрыть форму">
 				</button>
 			</div>

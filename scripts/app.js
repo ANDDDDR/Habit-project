@@ -14,7 +14,8 @@ const page = {
 	content:{
 		mainDays: document.querySelector('.days'),
 		mainDaysAdd: document.querySelector('.habbit__day_add')
-	}
+	},
+	popup: document.querySelector('.cover')
 };
 // data
 function loadData(){
@@ -127,6 +128,14 @@ function addDays(event){
 	saveData();
 	rerender(globalActiveHabbitId);
 	form['comment'].value = "";
+}
+
+function togglePopup(state){
+	if(state){
+		page.popup.classList.remove('cover_hidden');
+	}else{
+		page.popup.classList.add('cover_hidden');
+	}
 }
 
 // init
