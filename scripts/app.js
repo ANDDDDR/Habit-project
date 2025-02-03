@@ -68,17 +68,39 @@ function renderContent(activeHabbit){
 		element.classList.add('habbit');
 		element.innerHTML = `<div class="habbit__day">День ${+dayIndex+1}</div>
 						<div class="habbit__comment">${activeHabbit.days[dayIndex].comment}</div>
-						<button class="habbit__delete">
+						<button class="habbit__delete" onclick="deleteDay(${dayIndex})">
 							<img src="./images/delete.svg" alt="Удалить день">
 						</button>`;
-		element.querySelector('.habbit__delete').addEventListener('click', ()=> {
-			activeHabbit.days.splice(dayIndex,1);
-			saveData();
-			rerender(activeHabbit.id);
-		});
 		page.content.mainDays.appendChild(element);
 	}
 	page.content.mainDaysAdd.querySelector('.habbit__day').innerHTML = `День ${activeHabbit.days.length+1}`;
+}
+
+function rerender(activeHabbitId){
+	globalActiveHabbitId = activeHabbitId;
+	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
+	if(!activeHabbit){
+		return;
+	}
+	renderMenu(activeHabbit);
+	renderHead(activeHabbit);
+	renderContent(activeHabbit);
+}
+
+// work with days
+function deleteDay(dayIndex){
+	habbits = habbits.map(habbit => {
+		if(habbit.id === globalActiveHabbitId){
+			habbit.days.splice(dayIndex,1);
+			// return{
+			// 	...habbit,
+			// 	days: habbit.days
+			// }
+		}
+		return habbit;
+	})
+	saveData();
+	rerender(globalActiveHabbitId);
 }
 
 function addDays(event){
@@ -92,31 +114,21 @@ function addDays(event){
 	else{
 		form['comment'].classList.remove('error');
 	}
-	habbits = habbits.map(element => {
-		if(element.id === globalActiveHabbitId){
-			console.log(comment);
-			return{
-				...element,
-				days: element.days.concat([{comment}])
-			}
+	habbits = habbits.map(habbit => {
+		if(habbit.id === globalActiveHabbitId){
+			habbit.days.push({comment});
+			// return{
+			// 	...habbit,
+			// 	days: habbit.days.concat([{comment}])
+			// }
 		}
-		return element;
+		return habbit;
 	})
 	saveData();
 	rerender(globalActiveHabbitId);
 	form['comment'].value = "";
 }
 
-function rerender(activeHabbitId){
-	globalActiveHabbitId = activeHabbitId;
-	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
-	if(!activeHabbit){
-		return;
-	}
-	renderMenu(activeHabbit);
-	renderHead(activeHabbit);
-	renderContent(activeHabbit);
-}
 // init
 (()=>{
 	loadData();
