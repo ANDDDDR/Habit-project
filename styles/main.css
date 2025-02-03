@@ -246,3 +246,97 @@ input.error{
 .input__add:hover{
 	background: linear-gradient(90deg,#ECFFC2,#c8de99) ;
 }
+
+.cover{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cover_hidden{
+	display: none;
+}
+
+.popup{
+	background: #fff;
+	box-shadow: 0px 8px 14px 12px rgba(56, 56, 56, 0.05);
+	border-radius: 10px;
+	max-width: 600px;
+	padding: 20px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.popup__close{
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+h2{
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 27px;
+}
+
+.icon-label{
+	font-size: 14px;
+	line-height: 16px;
+	color: #768396;
+	margin-bottom: 10px;
+}
+.icon-select{
+	display: flex;
+	gap: 25px;
+	margin-bottom: 20px;
+}
+
+.icon{
+	border: 1px solid #A2CF40;
+	border-radius: 14px;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 45px;
+	height: 45px;
+	cursor: pointer;
+}
+
+.icon_active {
+ 	background: #A2CF40;
+ }
+
+.icon_active img {
+	filter: brightness(0) invert(1);
+}
+.icon:hover {
+	background: #A2CF40;
+}
+
+.icon:hover img {
+	filter: brightness(0) invert(1);
+}
+.popup__form{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	gap: 15px;
+}
+
+.popup__form input{
+	width: 100%;
+}
