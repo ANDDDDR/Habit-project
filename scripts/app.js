@@ -15,7 +15,12 @@ const page = {
 		mainDays: document.querySelector('.days'),
 		mainDaysAdd: document.querySelector('.habbit__day_add')
 	},
-	popup: document.querySelector('.cover')
+	popup:{
+		index: document.querySelector('.cover'),
+		iconField: document.querySelector('.popup__form input[name="icon"]'),
+		habbitName: document.querySelector('.popup__form input[name="name"]'),
+		habbitTarget: document.querySelector('.popup__form input[name="target"]')
+	} 
 };
 // data
 function loadData(){
@@ -28,6 +33,35 @@ function loadData(){
 
 function saveData(){
 	localStorage.setItem(HABBIT_KEY, JSON.stringify(habbits));
+}
+
+function resetForm(form, fields){
+	for (const field of fields){
+		form[field].value = '';
+	}
+}
+
+function validateAndGetForm(form, fields){
+	const formData = new FormData(form);
+	const res = {};
+	for (const field of fields){
+		const fieldValue = formData.get(field);
+		form[field].classList.remove('error');
+		if (!fieldValue){
+			form[field].classList.add('error');
+		}
+		res[field] = fieldValue;
+	}
+	let isValid = true;
+	for (const field of fields){
+		if (!res[field]){
+			isValid = false;
+		}
+	}
+	if (!isValid){
+		return;
+	}
+	return res;
 }
 // render
 function renderMenu(activeHabbit){
@@ -93,10 +127,6 @@ function deleteDay(dayIndex){
 	habbits = habbits.map(habbit => {
 		if(habbit.id === globalActiveHabbitId){
 			habbit.days.splice(dayIndex,1);
-			// return{
-			// 	...habbit,
-			// 	days: habbit.days
-			// }
 		}
 		return habbit;
 	})
@@ -106,36 +136,56 @@ function deleteDay(dayIndex){
 
 function addDays(event){
 	event.preventDefault();
-	const form = event.target;
-	const data = new FormData(form);
-	const comment = data.get('comment');
-	if(!comment){
-		form['comment'].classList.add('error');
-	}
-	else{
-		form['comment'].classList.remove('error');
+	const data = validateAndGetForm(event.target, ['comment']);
+	if (!data){
+		return;
 	}
 	habbits = habbits.map(habbit => {
 		if(habbit.id === globalActiveHabbitId){
-			habbit.days.push({comment});
-			// return{
-			// 	...habbit,
-			// 	days: habbit.days.concat([{comment}])
-			// }
+			habbit.days.push({comment: data.comment});
 		}
 		return habbit;
 	})
 	saveData();
 	rerender(globalActiveHabbitId);
-	form['comment'].value = "";
+	resetForm(event.target, ['comment']);
 }
 
-function togglePopup(state){
+function togglePopup(state){ 
 	if(state){
-		page.popup.classList.remove('cover_hidden');
+		page.popup.index.classList.remove('cover_hidden');
 	}else{
-		page.popup.classList.add('cover_hidden');
+		page.popup.index.classList.add('cover_hidden');
 	}
+}
+
+function setIcon(context, icon){
+	page.popup.iconField.value = icon;
+	const activeicon = document.querySelector('.icon.icon_active');
+	activeicon.classList.remove('icon_active');
+	context.classList.add('icon_active');
+}
+
+function addHabbit(event){
+	event.preventDefault();
+	const data = validateAndGetForm(event.target, ['name','icon','target']);
+	if (!data){
+		return;
+	}
+	const maxId = habbits.reduce((acc,habbit) => acc>habbit.id ? acc:habbit.id, 0);
+	habbits.push(
+		{
+			id: maxId+1,
+			icon: data.icon,
+			name: data.name,
+			target: data.target,
+			days: []
+		}
+	);
+	resetForm(event.target, ['name','target'])
+	togglePopup();
+	saveData();
+	rerender(maxId+1);
 }
 
 // init
