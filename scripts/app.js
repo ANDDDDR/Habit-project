@@ -117,6 +117,15 @@ function rerender(activeHabbitId){
 	if(!activeHabbit){
 		return;
 	}
+	if (activeHabbit.days.length === +activeHabbit.target){
+		page.content.mainDaysAdd.querySelector('.habbit__day').classList.add('hidden');
+		page.content.mainDaysAdd.querySelector('.habbit__form.add').classList.add('hidden');
+		page.content.mainDaysAdd.querySelector('.habbit__form.delete').classList.remove('hidden');
+	}else{
+		page.content.mainDaysAdd.querySelector('.habbit__day').classList.remove('hidden');
+		page.content.mainDaysAdd.querySelector('.habbit__form.add').classList.remove('hidden');
+		page.content.mainDaysAdd.querySelector('.habbit__form.delete').classList.add('hidden');
+	}
 	document.location.replace(document.location.pathname + '#' + activeHabbit.name);
 	renderMenu(activeHabbit);
 	renderHead(activeHabbit);
@@ -131,6 +140,13 @@ function deleteDay(dayIndex){
 		}
 		return habbit;
 	})
+	saveData();
+	rerender(globalActiveHabbitId);
+}
+
+function deleteHabbit(event){
+	// event.preventDefault();
+	habbits.splice(habbits.indexOf(habbits.find(habbit => habbit.id === globalActiveHabbitId)),1);
 	saveData();
 	rerender(globalActiveHabbitId);
 }
@@ -151,6 +167,9 @@ function addDays(event){
 	rerender(globalActiveHabbitId);
 	resetForm(event.target, ['comment']);
 }
+
+
+
 
 function togglePopup(state){ 
 	if(state){

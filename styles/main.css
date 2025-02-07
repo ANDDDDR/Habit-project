@@ -216,6 +216,7 @@ input.error{
 
 .habbit__form{
 	display: flex;
+	align-items: center;
 	gap: 15px;
 	width: 100%;
 	padding: 0px 10px 0 25px;
@@ -247,6 +248,33 @@ input.error{
 	background: linear-gradient(90deg,#ECFFC2,#c8de99) ;
 }
 
+.ending__text{
+	font-family: 'Comfortaa', cursive;
+	flex: 1;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+	padding: 20px 0 20px 0 ;
+}
+
+.delete__habbit {
+	background: #ECFFC2;
+	border-radius: 9px;
+	border: none;
+	font-size: 13px;
+	line-height: 14px;
+	color: #A2CF40;
+	padding: 14px 30px;
+	cursor: pointer;
+}
+
+.delete__habbit:hover {
+	background: linear-gradient(90deg, #ECFFC2, #c8de99);
+}
+
+.hidden{
+	display: none;
+}
 .cover{
 	position: fixed;
 	top: 0;
