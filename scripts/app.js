@@ -109,14 +109,6 @@ function renderContent(activeHabbit){
 		page.content.mainDays.appendChild(element);
 	}
 	page.content.mainDaysAdd.querySelector('.habbit__day').innerHTML = `День ${activeHabbit.days.length+1}`;
-}
-
-function rerender(activeHabbitId){
-	globalActiveHabbitId = activeHabbitId;
-	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
-	if(!activeHabbit){
-		return;
-	}
 	if (activeHabbit.days.length === +activeHabbit.target){
 		page.content.mainDaysAdd.querySelector('.habbit__day').classList.add('hidden');
 		page.content.mainDaysAdd.querySelector('.habbit__form.add').classList.add('hidden');
@@ -125,6 +117,14 @@ function rerender(activeHabbitId){
 		page.content.mainDaysAdd.querySelector('.habbit__day').classList.remove('hidden');
 		page.content.mainDaysAdd.querySelector('.habbit__form.add').classList.remove('hidden');
 		page.content.mainDaysAdd.querySelector('.habbit__form.delete').classList.add('hidden');
+	}
+}
+
+function rerender(activeHabbitId){
+	globalActiveHabbitId = activeHabbitId;
+	const activeHabbit = habbits.find(habbit=>habbit.id === activeHabbitId);
+	if(!activeHabbit){
+		return;
 	}
 	document.location.replace(document.location.pathname + '#' + activeHabbit.name);
 	renderMenu(activeHabbit);
